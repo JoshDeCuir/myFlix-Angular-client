@@ -1,0 +1,30 @@
+<div *ngIf="data.genre != null">
+  <h1 mat-dialog-title>Genre</h1>
+  <div mat-dialog-content>
+    <p>Type:{{ data.genre.name }}</p>
+    <p>{{ data.genre.description }}</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>
+<div *ngIf="data.director != null">
+  <h1 mat-dialog-title>Director</h1>
+  <div mat-dialog-content>
+    <p>{{ data.director.name }}</p>
+    <p>{{ data.director.birthdate }}</p>
+    <p>{{ data.director.description }}</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>
+<div *ngIf="data.description != null">
+  <h1 mat-dialog-title>Description</h1>
+  <div mat-dialog-content>
+    <p>{{ data.description }}</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Close</button>
+  </div>
+</div>

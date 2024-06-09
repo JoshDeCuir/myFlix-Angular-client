@@ -32,8 +32,10 @@ export class UserLoginFormComponent implements OnInit {
                 ...res.user,
                 id: res.user._id,
                 password: this.userData.password,
-                token: res.token
+                token: res.token,
+                birthday: res.user.birthday.split("T")[0]
             }
+            
             localStorage.setItem("user", JSON.stringify(user));
             this.router.navigate(["movies"]);
         }, res => {

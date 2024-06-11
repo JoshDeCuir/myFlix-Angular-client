@@ -180,7 +180,7 @@ export class FetchApiDataService {
    */
   editUser(userDetails: any): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}')
-    return this.http.put(apiUrl + 'users/' + userDetails.username, userDetails, {
+    return this.http.put(apiUrl + 'users/' + user.username, userDetails, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + user.token
       })

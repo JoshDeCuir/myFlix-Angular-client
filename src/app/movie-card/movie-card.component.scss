@@ -11,3 +11,8 @@ mat-card img {
   height: 300px; /* Set your desired height */
   object-fit: cover; /* Ensure images maintain their aspect ratio */
 }
+.main-page {
+  flex-direction: column;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}

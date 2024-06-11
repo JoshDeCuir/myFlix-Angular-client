@@ -56,15 +56,6 @@ export class FetchApiDataService {
   }
 
   /**
-   * Non-typed response extraction.
-   * @param {Object} res - API response.
-   * @returns {any} - Extracted response data.
-   */
-  private extractResponseData(res: Object): any {
-    return res || {};
-  }
-
-  /**
    * Making the API call for the Get One Movie endpoint.
    * @param {string} title - One movie title.
    * @returns {Observable<any>} - Observable for the API response.
@@ -153,10 +144,9 @@ export class FetchApiDataService {
    * @param {any} movie - Movie for adding to favorite movies.
    * @returns {Observable<any>} - Observable for the API response.
    */
-  addFavoriteMovies(movie: any): Observable<any> {
+  addFavoriteMovie(movieId: any): Observable<any> {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    //const token = localStorage.getItem('token');
-    return this.http.post(apiUrl + 'users/' + user.username + '/movies/' + movie._id, null, {
+    return this.http.post(apiUrl + 'users/' + user._id + '/addFavoriteMovie/' + movieId, null, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + user.token
       })
@@ -165,6 +155,23 @@ export class FetchApiDataService {
       catchError(this.handleError)
     );
   }
+
+    /**
+   * Making the API call for the Delete a Movie to Favourite Movies endpoint.
+   * @param {any} movie - Movie for deleting from favorite movies.
+   * @returns {Observable<any>} - Observable for the API response.
+   */
+    removeFavoriteMovie(movieId: any): Observable<any> {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      return this.http.post(apiUrl + 'users/' + user._id + '/removeFavoriteMovie/' + movieId, null, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + user.token
+        })
+      }).pipe(
+        map(this.extractResponseData),
+        catchError(this.handleError)
+      );
+    }
 
   /**
    * Making the API call for the Edit User endpoint.
@@ -191,7 +198,7 @@ export class FetchApiDataService {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     // check that user is not blank / null
 
-    return this.http.delete(apiUrl + 'users/' + user.username, {
+    return this.http.delete(apiUrl + 'users/' + user._id, {
       headers: new HttpHeaders({
         Authorization: 'Bearer ' + user.token
       })
@@ -202,21 +209,12 @@ export class FetchApiDataService {
   }
 
   /**
-   * Making the API call for the Delete a Movie to Favourite Movies endpoint.
-   * @param {any} movie - Movie for deleting from favorite movies.
-   * @returns {Observable<any>} - Observable for the API response.
+   * Non-typed response extraction.
+   * @param {Object} res - API response.
+   * @returns {any} - Extracted response data.
    */
-  deleteFavoriteMovies(movie: any): Observable<any> {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    const token = localStorage.getItem('token');
-    return this.http.delete(apiUrl + 'users/' + user.Username + '/movies/' + movie._id, {
-      headers: new HttpHeaders({
-        Authorization: 'Bearer ' + token
-      })
-    }).pipe(
-      map(this.extractResponseData),
-      catchError(this.handleError)
-    );
+  private extractResponseData(res: Object): any {
+    return res || {};
   }
 
   /**

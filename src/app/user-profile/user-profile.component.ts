@@ -17,9 +17,7 @@ export class UserProfileComponent implements OnInit{
     this.userData = JSON.parse(localStorage.getItem('user') || '{}');
   }
 
-  ngOnInit(): void {
-    this.getfavoriteMovies();
-  }
+  ngOnInit(): void {}
 
   updateUser(): void {
     this.fetchApiData.editUser(this.userData).subscribe((resp) => {
@@ -32,38 +30,23 @@ export class UserProfileComponent implements OnInit{
         token: this.userData.token
       };
       localStorage.setItem('user', JSON.stringify(this.userData));
-      this.getfavoriteMovies();
     }, (err: any) => {
       console.error(err);
     })
   }
-  resetUser(): void {
-    this.userData = JSON.parse(localStorage.getItem('user') || '{}');
+  
+  deleteUser(): void {
+    this.fetchApiData.deleteUser().subscribe(() => {
+      this.logout();
+    }, (err: any) => {
+      console.error(err);
+    })
   }
+
   backToMovies(): void {
     this.router.navigate(['movies']);
   }
 
-  getfavoriteMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.favoriteMovies = resp.filter((movies: any) => {
-        return this.userData.favoriteMovies.includes(movies._id);
-      })
-    }, (err: any) => {
-      console.error(err);
-    })
-  }
-
-
-  removeFromFavorite(movies: any): void {
-    this.fetchApiData.deleteFavoriteMovies(movies.title).subscribe((res: any) => {
-      this.userData.favoriteMovies = res.favoriteMovies;
-      this.getfavoriteMovies();
-    }, (err: any) => {
-      console.error(err)
-    })
-  }
-  
   logout(): void {
     this.router.navigate(["welcome"]);
     localStorage.removeItem("user");

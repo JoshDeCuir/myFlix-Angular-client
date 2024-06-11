@@ -25,8 +25,13 @@ export class MovieCardComponent implements OnInit {
 
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
+      
+      let user = JSON.parse(localStorage.getItem('user') || '');
+      resp.forEach((movie: any) => {
+        movie.isFavorite = user.favoriteMovies.includes(movie._id);
+      });
+
       this.movies = resp;
-      console.log(this.movies);
     });
   }
 
@@ -36,6 +41,30 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
+  modifyFavoriteMovies(movieId: any): void {
+    let user = JSON.parse(localStorage.getItem('user') || '');
+    let icon = document.getElementById(`${movieId}-favorite-icon`);
+
+    if (user.favoriteMovies.includes(movieId)) {
+        this.fetchApiData.removeFavoriteMovie(movieId).subscribe(function () {
+            icon?.setAttribute('fontIcon', 'favorite_border');
+
+            user.favoriteMovies = user.favoriteMovies.filter((favoriteMovieId: any) => favoriteMovieId !== movieId);
+            localStorage.setItem('user', JSON.stringify(user));
+        }, err => {
+            console.error(err)
+        })
+    } else {
+        this.fetchApiData.addFavoriteMovie(movieId).subscribe(function () {
+            icon?.setAttribute('fontIcon', 'favorite');
+
+            user.favoriteMovies.push(movieId);
+            localStorage.setItem('user', JSON.stringify(user));
+        }, err => {
+            console.error(err)
+        })
+    }
+}
   showDirector(director: any): void {
     this.dialog.open(ModalContentComponent, {
       data: { director }
@@ -48,7 +77,6 @@ export class MovieCardComponent implements OnInit {
     });
   }
   
-
   redirectProfile(): void {
     this.router.navigate(['/profile']);
   }

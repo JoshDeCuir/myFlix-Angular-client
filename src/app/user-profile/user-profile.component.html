@@ -1,5 +1,13 @@
 <button
     mat-raised-button
+    (click)="backToMovies()"
+    color="primary"
+    style="margin-right: 10px;"
+>
+Back to Movies
+</button>
+<button
+    mat-raised-button
     (click)="logout()"
     color="primary"
     style="margin-right: 10px;"
@@ -64,36 +72,15 @@ Logout
         color="primary"
         style="margin-right: 10px;"
         >
-        Update
+        Update User
         </button>
         <button
         mat-raised-button
-        (click)="backToMovies()"
+        (click)="deleteUser()"
         color="primary"
         style="margin-right: 10px;"
         >
-        Back to Movies
+        Delete User
         </button>
     </mat-card-actions>
-    <!-- Favorite Movies -->
-    <mat-card-title>Favorite Movies</mat-card-title>
-    <div style="display: flex;">
-        <mat-card *ngFor="let movies of this.favoriteMovies;" style="width: 280px; margin-right: 10px;">
-            <mat-card-header>
-                <mat-card-title>{{movies.title}}</mat-card-title>
-                <mat-card-subtitle>Directed by: {{movies.director.name}}</mat-card-subtitle>
-            </mat-card-header>
-            <img src={{movies.ImageURL}} alt={{movies.title}} />
-            <mat-card-actions>
-                <button
-                mat-raised-button
-                (click)="removeFromFavorite(movies)"
-                color="primary"
-                style="margin-right: 10px;"
-                >
-                Remove from favorite
-                </button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
 </mat-card>

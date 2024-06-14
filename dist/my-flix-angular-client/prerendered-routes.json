@@ -1,0 +1,9 @@
+{
+  "routes": [
+    "/home",
+    "/movies",
+    "/profile",
+    "/user",
+    "/welcome"
+  ]
+}
